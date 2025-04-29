@@ -1,5 +1,5 @@
 import { User } from "lucide-react";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineShoppingBag, HiBars3BottomRight } from "react-icons/hi2";
 import SeachBar from "./SearchBar";
@@ -7,14 +7,29 @@ import CartDrawer from "./CartDrawer/CartDrawer";
 import { HiOutlineX } from "react-icons/hi";
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/slices/authSlice';
+import { publicInstance } from '../../services/apisUrls';
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
 
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await publicInstance.get('/categories');
+        setCategories(response.data.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleOpenCart = () => {
     setIsOpenCart(!isOpenCart);
@@ -39,30 +54,15 @@ const Navbar = () => {
           </Link>
         </div>
         <div className=" hidden md:flex space-x-6">
-          <Link
-            to="collections/all"
-            className=" text-gray-700 hover:text-black text-sm font-medium uppercase"
-          >
-            Men
-          </Link>
-          <Link
-            to="#"
-            className=" text-gray-700 hover:text-black text-sm font-medium uppercase"
-          >
-            Women
-          </Link>
-          <Link
-            to="#"
-            className=" text-gray-700 hover:text-black text-sm font-medium uppercase"
-          >
-            Top Wear
-          </Link>
-          <Link
-            to="#"
-            className=" text-gray-700 hover:text-black text-sm font-medium uppercase"
-          >
-            Bottom Wear
-          </Link>
+          {categories.map((category) => (
+            <Link
+              key={category._id}
+              to={`/collections/${category.slug}`}
+              className=" text-gray-700 hover:text-black text-sm font-medium uppercase"
+            >
+              {category.name}
+            </Link>
+          ))}
         </div>
         {/* Icons */}
         <div className=" flex items-center space-x-4">
@@ -114,30 +114,16 @@ const Navbar = () => {
         <div className="p-4">
           <h2 className=" text-xl font-semibold mb-4 ">Menu</h2>
           <nav>
-            <Link to="#"
-              onClick={handleNavDrawer}
-              className=" block text-lg py-2 font-medium text-gray-700
-               hover:text-black">
-              Men
-            </Link>
-            <Link to="#"
-              onClick={handleNavDrawer}
-              className=" block text-lg py-2 font-medium text-gray-700
-               hover:text-black">
-              Women
-            </Link>
-            <Link to="#"
-              onClick={handleNavDrawer}
-              className=" block text-lg py-2 font-medium text-gray-700
-               hover:text-black">
-              Top Wear
-            </Link>
-            <Link to="#"
-              onClick={handleNavDrawer}
-              className=" block text-lg py-2 font-medium text-gray-700
-               hover:text-black">
-              Bottom Wear
-            </Link>
+            {categories.map((category) => (
+              <Link
+                key={category._id}
+                to={`/collections/${category.slug}`}
+                onClick={handleNavDrawer}
+                className=" block text-lg py-2 font-medium text-gray-700 hover:text-black"
+              >
+                {category.name}
+              </Link>
+            ))}
             {user ? (
               <>
                 <Link to="/profile" onClick={handleNavDrawer} className="block text-lg py-2 font-medium text-gray-700 hover:text-black">
