@@ -1,6 +1,6 @@
 import React from "react";
 import Hero from "../components/Shared/Hero";
-import GenderCollection from "../components/Products/GenderCollection";
+import GenderCollection from "../components/Products/Categories&Brands";
 import NewArrvials from "../components/Products/NewArrvials";
 import ProductDetalis from "../components/Products/ProductDetalis";
 import ProductGrid from "../components/Products/ProductGrid";
