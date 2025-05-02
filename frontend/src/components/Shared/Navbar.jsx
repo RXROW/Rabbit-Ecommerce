@@ -14,7 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/slices/authSlice';
 import { CATEGORIES, publicInstance, SUB_CATEGORIES } from '../../services/apisUrls';
-
+import { userFormStorage } from "../../redux/slices/authSlice";
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -46,8 +46,7 @@ const Navbar = () => {
   ]);
 
   const dropdownRef = useRef(null);
-  const navbarRef = useRef(null);
-
+  const navbarRef = useRef(null);  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -135,6 +134,7 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate('/');
+    window.location.reload(); // Reload the page to clear user data
   };
 
   const toggleDropdown = (categoryId) => {
@@ -243,8 +243,8 @@ const Navbar = () => {
 
           {/* Right Icons */}
           <div className="flex items-center space-x-5">
-            {user?.role === 'admin' && (
-              <Link to="/admin/dashbourd" className="text-white hover:bg-red-900 p-1.5 px-3 rounded bg-red-800 text-sm font-medium transition-colors">
+            {userFormStorage?.data?.role === 'admin' && (
+              <Link to="/admin/dashboard" className="text-white hover:bg-red-900 p-1.5 px-3 rounded bg-red-800 text-sm font-medium transition-colors">
                 Admin
               </Link>
             )}

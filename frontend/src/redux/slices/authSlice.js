@@ -3,7 +3,7 @@ import axios from "axios";
 import { AUTH } from "../../services/apisUrls";
 
 // Read user info from localStorage safely
-const userFormStorage = localStorage.getItem("userInfo")
+export const userFormStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 

@@ -66,6 +66,8 @@ const Login = () => {
 
         toast.success("Login successful!");
         navigate('/'); // Redirect after successful login
+        window.location.reload(); // Reload the page to fetch user data
+      
       } catch (error) {
         const errorMessage = error?.message || 'Login failed. Please try again.';
         toast.error(errorMessage);

@@ -6,7 +6,7 @@ const router = express.Router({mergeParams : true})
 
 router.route('/')
 .get(getAllSubCtegories)
-.post(nestedRouteForAddCategoryIdToParam, addSubCtegorievalidator, addSubCtegorie)
+.post(addSubCtegorie)
 router.route('/:id')
 .get(getSpecificSubCtegorievalidator , getSpecificSubCtegorie)
 .delete(deleteSubCtegorievalidator, deleteSubCtegorie)

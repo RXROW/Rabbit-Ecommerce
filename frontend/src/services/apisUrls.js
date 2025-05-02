@@ -4,8 +4,9 @@ export const BASE_URL = "http://localhost:3000/api";
 
 // http://localhost:3000/api/subCategories
 //brands
-  
-export const publicInstance  = axios.create({
+//localhost:3000/api/user
+
+  export const publicInstance = axios.create({
   baseURL: BASE_URL,
 });
  
@@ -35,6 +36,10 @@ export const CATEGORIES = {
   CREATE_CATEGORY: `${BASE_URL}/categories`,
   UPDATE_CATEGORY: (id) => `${BASE_URL}/categories/${id}`,
   DELETE_CATEGORY: (id) => `${BASE_URL}/categories/${id}`,
+  GET_ALL_SUB_CATEGORIES_BY_CATEGORYID: (id) =>
+    `${BASE_URL}/categories/${id}/subcategory`,
+  ADD_SUB_CATEGORIES_FOR_CATEGORYID: (id) =>
+    `${BASE_URL}/categories/${id}/subcategory`,
 };
 
 // Sub Categories Endpoints
@@ -44,10 +49,7 @@ export const SUB_CATEGORIES = {
   CREATE_SUB_CATEGORY: `${BASE_URL}/subCategories`,
   UPDATE_SUB_CATEGORY: (id) => `${BASE_URL}/subCategories/${id}`,
   DELETE_SUB_CATEGORY: (id) => `${BASE_URL}/subCategories/${id}`,
-  GET_ALL_SUB_CATEGORIES_BY_CATEGORYID: (id) =>
-    `${BASE_URL}/categories/${id}/subcategory`,
-  ADD_SUB_CATEGORIES_FOR_CATEGORYID: (id) =>
-    `${BASE_URL}/categories/${id}/subcategory`,
+ 
 };
 
 
@@ -59,3 +61,35 @@ export const BRANDS = {
   UPDATE_BRAND: (id) => `${BASE_URL}/brands/${id}`,
   DELETE_BRAND: (id) => `${BASE_URL}/brands/${id}`,
 };
+
+
+// Users Endpoints
+export const USERS = {
+  GET_ALL_USERS: `${BASE_URL}/user`,
+  GET_USER: (id) => `${BASE_URL}/user/${id}`,
+  CREATE_USER: `${BASE_URL}/user`,
+  // this data for create user
+  // {
+  //   "name": "Xrow",
+  //   "email": "norhhhyyhhhghgghn@gmail.com",
+  //   "password": "12345@52284Pp",
+  //   "passwordConfirm": "12345@52284Pp" ,
+  //   "role": "user",
+  //   "phone": "01152486987",
+  //   "avatar": "https://example.com/avatars/noran.jpg"
+  //    }
+  UPDATE_USER: (id) => `${BASE_URL}/user/${id}`,
+  DELETE_USER: (id) => `${BASE_URL}/user/${id}`,
+};
+
+
+
+// Products Endpoints
+// export const PRODUCTS = {
+//   GET_ALL_PRODUCTS: `${BASE_URL}/products`,
+//   GET_PRODUCT: (id) => `${BASE_URL}/products/${id}`,
+//   CREATE_PRODUCT: `${BASE_URL}/products`,
+//   UPDATE_PRODUCT: (id) => `${BASE_URL}/products/${id}`,
+//   DELETE_PRODUCT: (id) => `${BASE_URL}/products/${id}`,
+// };
+

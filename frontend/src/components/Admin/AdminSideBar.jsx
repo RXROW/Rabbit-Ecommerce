@@ -1,12 +1,13 @@
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
- 
-    const { darkMode} = useTheme();
-  // Navigation items array for better maintainability
-  const navigationItems = [
+  const { darkMode } = useTheme();
+  const location = useLocation();
+
+  // Split navigation items into main and system categories
+  const mainNavItems = [
     {
       id: 'dashboard',
       label: 'Dashboard',
@@ -15,8 +16,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
         </svg>
       ),
-      path: '/admin/dashbourd',
-      active: true
+      path: '/admin/dashboard'
     },
     {
       id: 'users',
@@ -26,8 +26,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
         </svg>
       ),
-      path: '/admin/users',
-      active: false
+      path: '/admin/users'
     },
     {
       id: 'products',
@@ -37,8 +36,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
         </svg>
       ),
-      path: '/admin/products',
-      active: false
+      path: '/admin/products'
     },
     {
       id: 'orders',
@@ -48,9 +46,31 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
         </svg>
       ),
-      path: '/admin/orders',
-      active: false
+      path: '/admin/orders'
     },
+    {
+      id: 'brands',
+      label: 'Brands',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+      ),
+      path: '/admin/brands'
+    },
+    {
+      id: 'categories',
+      label: 'Categories',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+      ),
+      path: '/admin/categories'
+    }
+  ];
+
+  const systemNavItems = [
     {
       id: 'shop',
       label: 'Shop',
@@ -60,7 +80,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </svg>
       ),
       path: '/',
-      active: false
     },
     {
       id: 'settings',
@@ -72,7 +91,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </svg>
       ),
       path: '#',
-      active: false
     },
     {
       id: 'analytics',
@@ -83,20 +101,18 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </svg>
       ),
       path: '#',
-      active: false
     }
   ];
 
-  // Group navigation items by category
-  const mainNavItems = navigationItems.slice(0, 5);
-  const systemNavItems = navigationItems.slice(5);
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
 
   return (
     <>
-      <div 
-        className={`${'bg-gradient-to-b from-gray-900 to-gray-800'} text-white w-full md:w-64 fixed md:relative inset-0 transform min-h-screen ${
-          isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-        } transition-transform duration-300 ease-in-out z-20 flex flex-col overflow-y-auto`}
+      <div
+        className={`bg-gradient-to-b from-gray-900 to-gray-800 text-white w-full md:w-64 fixed md:relative inset-0 transform min-h-screen ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+          } transition-transform duration-300 ease-in-out z-20 flex flex-col overflow-y-auto`}
       >
         {/* Close button for mobile */}
         <button
@@ -108,11 +124,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
-        
+
         {/* Logo and Title */}
         <div className="p-6">
           <div className="flex items-center space-x-3">
-            <div className={`bg-white rounded-full p-1.5`}>
+            <div className="bg-white rounded-full p-1.5">
               <svg className={`w-8 h-8 ${darkMode ? 'text-blue-400' : 'text-gray-900'}`} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
               </svg>
@@ -123,7 +139,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </div>
           </div>
         </div>
-  
+
         {/* User info section */}
         <div className="px-6 py-2">
           <div className={`flex items-center space-x-3 ${darkMode ? 'bg-gray-800' : 'bg-gray-800 bg-opacity-50'} p-3 rounded-lg`}>
@@ -136,7 +152,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </div>
           </div>
         </div>
-        
+
         <div className="px-4 py-2">
           <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
             Main
@@ -146,16 +162,15 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               {mainNavItems.map((item) => (
                 <li key={item.id} className="mb-1">
                   <Link
-                    to={item.path} 
-                    className={`flex items-center py-2.5 px-3 rounded-lg transition-colors duration-200 ${
-                      item.active 
-                        ? `${darkMode ? 'bg-blue-800' : 'bg-blue-600'} text-white` 
+                    to={item.path}
+                    className={`flex items-center py-2.5 px-3 rounded-lg transition-colors duration-200 ${isActive(item.path)
+                        ? `${darkMode ? 'bg-blue-800' : 'bg-blue-600'} text-white`
                         : `text-gray-300 hover:${darkMode ? 'bg-gray-800' : 'bg-gray-700'} hover:text-white`
-                    }`}
+                      }`}
                   >
                     <span className="mr-3">{item.icon}</span>
                     <span className="font-medium">{item.label}</span>
-                    {item.active && (
+                    {isActive(item.path) && (
                       <span className="ml-auto bg-blue-500 rounded-full w-2 h-2"></span>
                     )}
                   </Link>
@@ -164,7 +179,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </ul>
           </nav>
         </div>
-        
+
         <div className="px-4 py-2 mt-4">
           <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
             System
@@ -173,26 +188,25 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <ul>
               {systemNavItems.map((item) => (
                 <li key={item.id} className="mb-1">
-                  <a 
-                    href={item.path} 
-                    className={`flex items-center py-2.5 px-3 rounded-lg transition-colors duration-200 ${
-                      item.active 
-                        ? `${darkMode ? 'bg-blue-800' : 'bg-blue-600'} text-white` 
+                  <Link
+                    to={item.path}
+                    className={`flex items-center py-2.5 px-3 rounded-lg transition-colors duration-200 ${isActive(item.path)
+                        ? `${darkMode ? 'bg-blue-800' : 'bg-blue-600'} text-white`
                         : `text-gray-300 hover:${darkMode ? 'bg-gray-800' : 'bg-gray-700'} hover:text-white`
-                    }`}
+                      }`}
                   >
                     <span className="mr-3">{item.icon}</span>
                     <span className="font-medium">{item.label}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </nav>
         </div>
-        
+
         {/* Spacer to push logout to bottom */}
         <div className="flex-grow"></div>
-        
+
         {/* Version indicator */}
         <div className="px-6 py-2">
           <div className={`${darkMode ? 'bg-gray-800' : 'bg-gray-800 bg-opacity-50'} py-2 px-3 rounded-lg text-xs text-gray-400 flex justify-between items-center`}>
@@ -203,7 +217,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </span>
           </div>
         </div>
-        
+
         {/* Logout button */}
         <div className="p-4">
           <button className="w-full bg-red-600 hover:bg-red-700 text-white p-2.5 rounded-lg flex items-center justify-center transition-colors duration-200 font-medium">
@@ -214,7 +228,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </button>
         </div>
       </div>
-      
+
       {/* Overlay for mobile */}
       {isOpen && (
         <div

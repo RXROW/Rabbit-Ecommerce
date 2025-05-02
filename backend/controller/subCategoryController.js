@@ -44,7 +44,8 @@ exports.nestedRouteForAddCategoryIdToParam = (req,res,next )=>
 }
 exports.addSubCtegorie = asyncHandelar( async (req ,res , next )=>{
     
-    const { name  , category } = req.body ;
+    const { name, category } = req.body;
+ 
 
     const existed = await SupCategory.findOne({name})
     if (existed)
@@ -52,7 +53,7 @@ exports.addSubCtegorie = asyncHandelar( async (req ,res , next )=>{
             return next ( new ApiError ('sup category already exist ', 400) )
      
         }
-    const newSupCategory = await  new SupCategory({name , slug : slugify(name) , category })
+    const newSupCategory = new SupCategory({ name, slug: slugify(name), category })
     
     await newSupCategory.save()
     return res.status(200).json({ status : httpStatusText.SUCCESS , data : newSupCategory , massage : ' sub category added successfuly ' })
